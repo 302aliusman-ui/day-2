@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Sorry | Please Forgive Me</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: #0a0a0a;
+            --text-main: #cfcfcf;
+            --text-highlight: #ffffff;
+            --accent: #8a2be2; /* Deep violet */
+            --accent-glow: rgba(138, 43, 226, 0.3);
+            --border: #2a2a2a;
+            --font-heading: 'Cinzel', serif;
+            --font-body: 'Lora', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* --- Background Particles Animation --- */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: floatUp 15s infinite linear;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) translateX(20px); opacity: 0; }
+        }
+
+        /* --- Utility & Layout --- */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .text-center { text-align: center; }
+
+        /* --- Header Section --- */
+        header {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--text-highlight);
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.1);
+            letter-spacing: 3px;
+            opacity: 0;
+            animation: fadeInHeader 2s forwards 0.5s;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--accent);
+            font-style: italic;
+            border-right: 2px solid var(--accent);
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 3s steps(40, end) forwards 1.5s;
+        }
+
+        .broken-heart {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px #500);
+            animation: heartbeat 2s infinite;
+        }
+
+        /* --- Messages Grid --- */
+        .messages-section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--text-highlight);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 1px;
+            background: var(--accent);
+            margin: 15px auto 0;
+        }
+
+        .message-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        .message-card {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 8px;
+            position: relative;
+            transition: all 0.4s ease;
+            opacity: 0; /* Hidden for scroll animation */
+            transform: translateY(30px);
+        }
+
+        .message-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 15px var(--accent-glow);
+        }
+
+        .msg-number {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 10px;
+            display: block;
+            font-family: var(--font-heading);
+        }
+
+        .message-text {
+            font-size: 1.05rem;
+            color: #dcdcdc;
+        }
+
+        /* --- Final Section & Form --- */
+        .final-plea {
+            padding: 80px 0;
+            background: linear-gradient(to top, #000 0%, #0a0a0a 100%);
+            position: relative;
+        }
+
+        .plea-card {
+            background: rgba(15, 15, 15, 0.95);
+            border: 1px solid #333;
+            padding: 40px 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+
+        .plea-heading {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-highlight);
+            margin-bottom: 25px;
+        }
+
+        .plea-text {
+            font-size: 1.15rem;
+            margin-bottom: 35px;
+            line-height: 1.9;
+            color: #bbb;
+        }
+
+        /* Form Styles */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .form-input, .form-textarea {
+            background: #111;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 15px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            border-radius: 5px;
+            outline: none;
+            transition: border 0.3s;
+            width: 100%;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background: transparent;
+            border: 2px solid var(--text-highlight);
+            color: var(--text-highlight);
+            padding: 15px;
+            font-family: var(--font-heading);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background: var(--text-highlight);
+            color: #000;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 30px;
+            font-size: 0.85rem;
+            color: #444;
+            border-top: 1px solid #111;
+        }
+
+        /* --- Keyframes --- */
+        @keyframes fadeInHeader {
+            to { opacity: 1; }
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+
+        @keyframes scrollFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Media Queries --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .subtitle { font-size: 1rem; animation: none; width: auto; border: none; }
+            .plea-card { padding: 30px 20px; }
+        }
+        @media (min-width: 769px) {
+            .message-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Particles -->
+    <div class="particles-container" id="particles">
+        <!-- JS will generate particles here -->
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="hero-content">
+            <div class="broken-heart">💔</div>
+            <h1>I'm Sorry</h1>
+            <p class="subtitle">Tumhe khona nahi chahta... please suno.</p>
+        </div>
+    </header>
+
+    <main>
+        <!-- Emotional Messages -->
+        <section class="messages-section">
+            <div class="container">
+                <h2 class="section-title">Dil Ki Baat</h2>
+                
+                <div class="message-grid">
+                    <!-- Message 1 -->
+                    <article class="message-card">
+                        <span class="msg-number">01</span>
+                        <p class="message-text">Kabhi socha nahi tha ke hum itne door ho jayenge. Tumhari dosti meri zindagi ka sabse khubsurat hissa hai, aur maine us khubsurat hissay ko dukh pahunchaya. I am truly sorry.</p>
+                    </article>
+
+                    <!-- Message 2 -->
+                    <article class="message-card">
+                        <span class="msg-number">02</span>
+                        <p class="message-text">Mujhe pata hai ke maine galti ki, par mera neeyat kabhi bura nahi tha. Tumhari her baat ka khayal rakha hai, bas shayad is baar main kuch zyada hi ho gaya.</p>
+                    </article>
+
+                    <!-- Message 3 -->
+                    <article class="message-card">
+                        <span class="msg-number">03</span>
+                        <p class="message-text">Mujhy us sa mohabbat hai... aur mohabbat mein galtiyan hoti rehti hain. Par main wada karta hoon, main dobara ye galti nahi karunga. Tumhare bina yeh jahan soona sa lagta hai.</p>
+                    </article>
+
+                    <!-- Message 4 -->
+                    <article class="message-card">
+                        <span class="msg-number">04</span>
+                        <p class="message-text">Tumhari aankhon mein wo udaas dekh kar mere dil ko dard hota hai. Main wo udas nahi dekh sakta jo maine khud paida ki hai. Please mujhe maaf kar do.</p>
+                    </article>
+
+                    <!-- Message 5 -->
+                    <article class="message-card">
+                        <span class="msg-number">05</span>
+                        <p class="message-text">Duniya mein log aate jate hain, par tumhari jaisi dosti milegi nahi. Main tumhe kho kar khud ko kho jaoonga. Main tumhe apne paas wapis chahta hoon.</p>
+                    </article>
+
+                    <!-- Message 6 -->
+                    <article class="message-card">
+                        <span class="msg-number">06</span>
+                        <p class="message-text">Maine tumhe sab prove kar diya tha ke tum kitni important ho, par phir bhi shayad mera pyaar kam pad gaya. Ik aur mauka do, main sab theek kar dunga.</p>
+                    </article>
+
+                    <!-- Message 7 -->
+                    <article class="message-card">
+                        <span class="msg-number">07</span>
+                        <p class="message-text">Ye raatein mujhe sata rahi hain, tumhe yaad kar ke ankhein bhar jati hain. Kal jab bhi uthta hoon, pehli dua tumhari hi hoti hai. Please wapis aao.</p>
+                    </article>
+
+                    <!-- Message 8 -->
+                    <article class="message-card">
+                        <span class="msg-number">08</span>
+                        <p class="message-text">Main badal nahi gaya, main tumhari wafa ka qarzdar hoon. Sirf ek galti ne humare beech ki duriyan badha di hain, jo main mita dunga.</p>
+                    </article>
+
+                    <!-- Message 9 -->
+                    <article class="message-card">
+                        <span class="msg-number">09</span>
+                        <p class="message-text">Tumhara gussa sahi hai, tumhara roona sahi hai. Par tumhara mujhe bhool jana bilkul bhi sahi nahi hai. Main tayar hoon saaf sunne ke liye.</p>
+                    </article>
+
+                    <!-- Message 10 -->
+                    <article class="message-card">
+                        <span class="msg-number">10</span>
+                        <p class="message-text">Hum ne kitne saare sapne dekhe the, kitne baatein ki thi. Kya sab itni aasani se khatam ho jayegi? Meri ummeed abhi bhi tumse judi hai.</p>
+                    </article>
+
+                    <!-- Message 11 -->
+                    <article class="message-card">
+                        <span class="msg-number">11</span>
+                        <p class="message-text">Maine apni taraf se puri koshish ki thi tumhe khush rakhne ki. Agar kuch kami rahi to wo meri kami thi, par mera pyaar kam nahi hua.</p>
+                    </article>
+
+                    <!-- Message 12 -->
+                    <article class="message-card">
+                        <span class="msg-number">12</span>
+                        <p class="message-text">Bas ik call, bas ek msg... aur sab pehle jaisa ho jayega. Main intezaar karunga, chahe kitna hi waqt lag jaye. Please.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Plea with Form -->
+        <section class="final-plea">
+            <div class="container">
+                <div class="plea-card">
+                    <h2 class="plea-heading">Aakhri Arz</h2>
+                    
+                    <!-- Updated Respectful Paragraph -->
+                    <p class="plea-text">
+                        I know I hurt you, and you have every right to be angry. You deserve peace, not the drama I caused. Main samajhta hoon ke maine bohot bari galti ki hai. Main apni jagah pe nahi hoon tumhare liye magar mera dil nahi maan raha. Main wada karta hoon ke main dobara kabhi galti nahi karunga. 
+                        <br><br>
+                        Please agar tumhare dil mein thodi bhi jagah hai, to mujhe ek <b>last chance</b> de dein. Main sab kuch sahi kar dunga.
+                    </p>
+
+                    <!-- Formspree Form -->
+                    <form action="https://formspree.io/f/xdaypjen" method="POST" class="contact-form">
+                        <input type="text" name="name" placeholder="Tumhara Naam (Optional)" class="form-input" required>
+                        <textarea name="message" placeholder="Yahan likho kya tumhara faisla hai..." class="form-textarea" required></textarea>
+                        
+                        <!-- Hidden input for styling reference -->
+                        <input type="hidden" name="_subject" value="New Response from Apology Site">
+                        
+                        <button type="submit" class="submit-btn">Muje Bhejo (Send)</button>
+                    </form>
+                    <p style="margin-top: 10px; font-size: 0.8rem; color: #555;">*Ye message mujhe direct email par jayega.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Made with regret & hope. Waiting for you...</p>
+    </footer>
+
+    <script>
+        // 1. Generate Floating Particles
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 50;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // Random positioning and delay
+            const x = Math.random() * 100;
+            const delay = Math.random() * 15;
+            const duration = 10 + Math.random() * 20;
+            
+            particle.style.left = x + '%';
+            particle.style.animationDelay = delay + 's';
+            particle.style.animationDuration = duration + 's';
+            
+            particlesContainer.appendChild(particle);
+        }
+
+        // 2. Scroll Animation for Cards
+        document.addEventListener("DOMContentLoaded", function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = "scrollFadeIn 0.8s forwards ease-out";
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const cards = document.querySelectorAll('.message-card');
+            cards.forEach((card, index) => {
+                // Add staggered delay via CSS variable or inline style if needed
+                // For simplicity, the JS observer triggers the animation
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
